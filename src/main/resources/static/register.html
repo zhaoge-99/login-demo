@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="card">
+    <h2>用户注册</h2>
+    <form id="registerForm">
+        <div class="form-item">
+            <label>用户名</label>
+            <input type="text" name="username" required>
+        </div>
+        <div class="form-item">
+            <label>密码</label>
+            <input type="password" name="password" required>
+        </div>
+        <div class="form-item">
+            <label>确认密码</label>
+            <input type="password" name="password2" required>
+        </div>
+        <button type="submit" class="submit-btn">注册</button>
+    </form>
+    <div class="tip">
+        已有账号？<a href="index.html">去登录</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const username = document.querySelector('input[name="username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+        const password2 = document.querySelector('input[name="password2"]').value;
+
+        if (password !== password2) {
+            alert('两次输入的密码不一致');
+            return;
+        }
+
+        fetch('/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password)
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.msg);
+                if (data.code === 200) {
+                    window.location.href = 'index.html';
+                }
+            })
+            .catch(err => {
+                alert('请求失败，请检查后端服务');
+            });
+    });
+</script>
+</body>
+</html>

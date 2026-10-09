@@ -1,0 +1,17 @@
+# 服务器端口配置
+server:
+  port: 8081
+
+# 数据库连接配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.110.127:3306/duanyifan_com?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root      # 改成你的MySQL用户名
+    password: 19570283739Dyf@    # 改成你的MySQL密码
+
+# MyBatis配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名转换（数据库user_name → 实体userName）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印SQL语句，方便调试

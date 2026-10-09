@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="card">
+    <h2>用户登录</h2>
+    <form id="loginForm">
+        <div class="form-item">
+            <label>用户名</label>
+            <input type="text" name="username" required>
+        </div>
+        <div class="form-item">
+            <label>密码</label>
+            <input type="password" name="password" required>
+        </div>
+        <button type="submit" class="submit-btn">登录</button>
+    </form>
+    <div class="tip">
+        没有账号？<a href="register.html">去注册</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const username = document.querySelector('input[name="username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+
+        fetch('/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password)
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.msg);
+                if (data.code === 200) {
+                    // 登录成功后跳转地址，可自行修改
+                    window.location.href = 'home.html';
+                }
+            })
+            .catch(err => {
+                alert('登录失败，请检查后端服务');
+            });
+    });
+</script>
+</body>
+</html>
